@@ -5,7 +5,7 @@ using NumberHoas.Data;
 using NumberHoas.Models;
 namespace NumberHoas.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/games")]
 [ApiController]
 public class GameController : ControllerBase
 {
@@ -15,41 +15,46 @@ public class GameController : ControllerBase
         _context = context;
     }
 
+    // GET: api/games
     [HttpGet]
     public async Task<ActionResult<List<Game>>> GetGames()
     {
         return await _context.Games.ToListAsync();
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Game>> GetGame(Guid id)
+    // GET: api/games/{gameId}
+    [HttpGet("{gameId}")]
+    public async Task<ActionResult<Game>> GetGame(Guid gameId)
     {
-        var game = await _context.Games.FindAsync(id);
+        var game = await _context.Games.FindAsync(gameId);
         if (game == null) return NotFound();
         return game;
     }
 
+    // POST: api/games
     [HttpPost]
     public async Task<ActionResult<Game>> CreateGame(Game game)
     {
         _context.Games.Add(game);
         await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetGame), new { id = game.gameId }, game);
+        return CreatedAtAction(nameof(GetGame), new { gameId = game.gameId }, game);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateGame(Guid id, Game game)
+    // PUT: api/games/{gameId}
+    [HttpPut("{gameId}")]
+    public async Task<IActionResult> UpdateGame(Guid gameId, Game game)
     {
-        if (id != game.gameId) return BadRequest();
+        if (gameId != game.gameId) return BadRequest();
         _context.Entry(game).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteGame(Guid id)
+    // DELETE: api/games/{gameId}
+    [HttpDelete("{gameId}")]
+    public async Task<IActionResult> DeleteGame(Guid gameId)
     {
-        var game = await _context.Games.FindAsync(id);
+        var game = await _context.Games.FindAsync(gameId);
         if (game == null) return NotFound();
         _context.Games.Remove(game);
         await _context.SaveChangesAsync();
