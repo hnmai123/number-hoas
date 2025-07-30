@@ -7,7 +7,6 @@ import {
   faMoon,
   faCircleHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
-import { Console } from "console";
 
 type Theme = "light" | "dark" | "system";
 

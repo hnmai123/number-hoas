@@ -10,6 +10,7 @@ import {
   faComments,
   faCopyright,
 } from "@fortawesome/free-solid-svg-icons";
+import NavLink from "@/components/NavLink";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,36 +45,15 @@ export default function RootLayout({
             Number Hoas
           </a>
           <nav className="flex space-x-8 items-center">
-            <a
-              href="/leaderboard"
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200 hover:underline decoration-2 underline-offset-4 flex items-center gap-2"
-            >
-              <FontAwesomeIcon
-                icon={faChartLine}
-                className="text-gray-700 dark:text-gray-300"
-              />
+            <NavLink href="/leaderboard" icon={faChartLine}>
               Leaderboard
-            </a>
-            <a
-              href="/creativity"
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200 hover:underline decoration-2 underline-offset-4 flex items-center gap-2"
-            >
-              <FontAwesomeIcon
-                icon={faPalette}
-                className="text-gray-700 dark:text-gray-300"
-              />
+            </NavLink>
+            <NavLink href="/creativity" icon={faPalette}>
               Creativity
-            </a>
-            <a
-              href="/feedback"
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200 hover:underline decoration-2 underline-offset-4 flex items-center gap-2"
-            >
-              <FontAwesomeIcon
-                icon={faComments}
-                className="text-gray-700 dark:text-gray-300"
-              />
+            </NavLink>
+            <NavLink href="/feedback" icon={faComments}>
               Feedback
-            </a>
+            </NavLink>
             <ThemeToggle />
           </nav>
         </header>
@@ -86,7 +66,7 @@ export default function RootLayout({
             className="mr-1 text-gray-600 dark:text-gray-400"
           />
           <span className="text-gray-600 dark:text-gray-400">
-             2025 Huy Mai - Number Hoas
+            2025 Huy Mai - Number Hoas
           </span>
         </footer>
       </body>
