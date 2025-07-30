@@ -28,72 +28,54 @@ interface GameData {
 
 export default function CreateGame() {
   const [gameData, setGameData] = useState<GameData>({
-    id: "1",
+    id: crypto.randomUUID(), // generates a valid GUID
     name: "",
     authorName: "",
     range: 100,
     timeLimit: 60,
-    rules: [
-      { id: "1", gameId: "1", divisibleNumber: 3, replacedWord: "Fizz" },
-      { id: "2", gameId: "1", divisibleNumber: 5, replacedWord: "Buzz" },
-    ],
+    rules: [],
   });
-
-  const [newRule, setNewRule] = useState<Rule>({
-    id: "",
-    gameId: gameData.id,
-    divisibleNumber: 0,
-    replacedWord: "",
-  });
-
-  const addRule = () => {
-    if (newRule.divisibleNumber > 0 && newRule.replacedWord) {
-      const tempId = `temp_${Date.now()}`;
-      const updatedRules = [...gameData.rules, { ...newRule, id: tempId }];
-      setGameData({ ...gameData, rules: updatedRules });
-      setNewRule({
-        id: "",
-        gameId: gameData.id,
-        divisibleNumber: 0,
-        replacedWord: "",
-      });
-    }
-  };
-
-  const removeRule = (ruleId: string) => {
-    const updatedRules = gameData.rules.filter((rule) => rule.id !== ruleId);
-    setGameData({ ...gameData, rules: updatedRules });
-  };
-
-  const updateRule = (ruleId: string, updatedRule: Partial<Rule>) => {
-    const updatedRules = gameData.rules.map((rule) =>
-      rule.id === ruleId ? { ...rule, ...updatedRule } : rule
-    );
-    setGameData({ ...gameData, rules: updatedRules });
-  };
 
   const saveGame = async () => {
     try {
-      const response = await fetch("api/games", {
+      const response = await fetch("http://localhost:5086/api/games", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: gameData.name,
+          gameId: gameData.id,
+          gameName: gameData.name,
           authorName: gameData.authorName,
           range: gameData.range,
           timeLimit: gameData.timeLimit,
-          rules: gameData.rules.map((rule) => ({
-            divisibleNumber: rule.divisibleNumber,
-            replacedWord: rule.replacedWord,
-          })),
+          createdAt: new Date().toISOString(),
         }),
       });
       if (response.ok) {
         const savedGame = await response.json();
-        console.log("Game saved successfully:", savedGame);
-        setGameData(savedGame);
+        
+        for (const rule of gameData.rules) {
+          await fetch(`http://localhost:5086/api/games/${savedGame.gameId}/rules`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...rule,
+              gameId: savedGame.gameId,
+            }),
+          });
+          const testrule = { ...rule, gameId: savedGame.gameId };
+        }
+        setGameData({
+          id: crypto.randomUUID(),
+          name: "",
+          authorName: "",
+          range: 100,
+          timeLimit: 60,
+          rules: [],
+        });
       }
     } catch (error) {
       console.error("Error saving game:", error);
@@ -151,20 +133,40 @@ export default function CreateGame() {
 
             {/* Rules Section */}
             <RuleForm
+              rules={gameData.rules ?? []}
               onAdd={(divisibleNumber, replacedWord) => {
-                const tempId = `temp_${Date.now()}`;
-                const updatedRules = [
-                  ...gameData.rules,
-                  { id: tempId, gameId: gameData.id, divisibleNumber, replacedWord },
-                ];
-                setGameData({ ...gameData, rules: updatedRules });
+                const tempId = crypto.randomUUID();
+                setGameData({
+                  ...gameData,
+                  rules: [
+                    ...gameData.rules,
+                    {
+                      id: tempId,
+                      divisibleNumber,
+                      replacedWord,
+                      gameId: gameData.id,
+                    },
+                  ],
+                });
+              }}
+              onRemove={(id) => {
+                setGameData({
+                  ...gameData,
+                  rules: gameData.rules.filter((rule) => rule.id !== id),
+                });
               }}
             />
             {/* Submit games */}
             <button
               onClick={saveGame}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded disabled:bg-gray-400"
-              disabled={!gameData.name || !gameData.authorName || gameData.range < 1 || gameData.timeLimit < 1 || gameData.rules.length < 1}
+              disabled={
+                !gameData.name ||
+                !gameData.authorName ||
+                gameData.range < 1 ||
+                gameData.timeLimit < 1 ||
+                gameData.rules.length < 1
+              }
             >
               Save Game
             </button>
