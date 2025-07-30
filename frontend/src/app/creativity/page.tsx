@@ -1,25 +1,12 @@
 "use client";
 
+import NumberRangeInput from "@/components/NumberRange";
+import RuleForm from "@/components/RuleForm";
+import TextInput from "@/components/TextInput";
 import TimeLimitInput from "@/components/TimeLimit";
 import { faGamepad, faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parse } from "path";
 import { useState } from "react";
-
-// Game
-// UUID gameId
-// string gameName
-// string authorName
-// int range
-// int timeLimit
-// datetime created_at
-
-// Rule
-// UUID ruleId
-// UUID gameId
-// int divisibleNumber
-// string replacedWord
-// datetime created_at
 
 interface Rule {
   id: string;
@@ -135,99 +122,52 @@ export default function CreateGame() {
 
           <div className="space-y-4">
             {/* Game Name Filed */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Game Name
-              </label>
-              <input
-                type="text"
-                value={gameData.name}
-                onChange={(e) =>
-                  setGameData({ ...gameData, name: e.target.value })
-                }
-                placeholder="Super FizzBuzz Challenge"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+            <TextInput
+              label="Game Name"
+              placeholder="Super FizzBuzz Challenge"
+              value={gameData.name}
+              onChange={(val) => setGameData({ ...gameData, name: val })}
+            />
 
             {/* Author Name Field */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Author Name
-              </label>
-              <input
-                type="text"
-                value={gameData.authorName}
-                onChange={(e) =>
-                  setGameData({ ...gameData, authorName: e.target.value })
-                }
-                placeholder="Chicken Guy"
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+            <TextInput
+              label="Author Name"
+              placeholder="Chicken Guy"
+              value={gameData.authorName}
+              onChange={(val) => setGameData({ ...gameData, authorName: val })}
+            />
 
             {/* Number Range Field */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Number Range: 1 - {gameData.range}
-                </label>
-                {/* Input number */}
-                <input
-                  type="number"
-                  min="1"
-                  max="1000"
-                  value={gameData.range}
-                  onChange={(e) => {
-                    if (isNaN(parseInt(e.target.value))) {
-                      setGameData({
-                        ...gameData,
-                        range: 1,
-                      });
-                      return;
-                    } else if (parseInt(e.target.value) < 1) {
-                      setGameData({
-                        ...gameData,
-                        range: 1,
-                      });
-                      return;
-                    } else if (parseInt(e.target.value) > 1000) {
-                      setGameData({
-                        ...gameData,
-                        range: 1000,
-                      });
-                      return;
-                    } else {
-                      setGameData({
-                        ...gameData,
-                        range: parseInt(e.target.value),
-                      });
-                    }
-                  }}
-                  className="w-24 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                />
-              </div>
+            <NumberRangeInput
+              value={gameData.range}
+              onChange={(val) => setGameData({ ...gameData, range: val })}
+            />
 
-              {/* Range slider */}
-              <input
-                type="range"
-                min="1"
-                max="1000"
-                value={gameData.range}
-                onChange={(e) =>
-                  setGameData({ ...gameData, range: parseInt(e.target.value) })
-                }
-                className="w-full"
-              />
-              <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Players will see numbers from 1 to {gameData.range}
-              </div>
-            </div>
             {/* Time Limit Field */}
             <TimeLimitInput
               value={gameData.timeLimit}
               onChange={(val) => setGameData({ ...gameData, timeLimit: val })}
             />
+
+            {/* Rules Section */}
+            <RuleForm
+              onAdd={(divisibleNumber, replacedWord) => {
+                const tempId = `temp_${Date.now()}`;
+                const updatedRules = [
+                  ...gameData.rules,
+                  { id: tempId, gameId: gameData.id, divisibleNumber, replacedWord },
+                ];
+                setGameData({ ...gameData, rules: updatedRules });
+              }}
+            />
+            {/* Submit games */}
+            <button
+              onClick={saveGame}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded disabled:bg-gray-400"
+              disabled={!gameData.name || !gameData.authorName || gameData.range < 1 || gameData.timeLimit < 1 || gameData.rules.length < 1}
+            >
+              Save Game
+            </button>
           </div>
         </div>
       </div>

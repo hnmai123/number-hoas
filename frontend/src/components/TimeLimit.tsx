@@ -54,9 +54,6 @@ export default function TimeLimitInput({ value, onChange }: TimeLimitInputProps)
               Hours
             </div>
           </div>
-
-          <span className="text-gray-500 dark:text-gray-400 font-bold text-xl self-center">:</span>
-
           {/* Minutes */}
           <div className="flex-1">
             <input
@@ -76,9 +73,6 @@ export default function TimeLimitInput({ value, onChange }: TimeLimitInputProps)
               Minutes
             </div>
           </div>
-
-          <span className="text-gray-500 dark:text-gray-400 font-bold text-xl self-center">:</span>
-
           {/* Seconds */}
           <div className="flex-1">
             <input
