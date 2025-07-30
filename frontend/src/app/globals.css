@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+:root {
+    --background: #ffffff;  /* Light mode default */
+    --foreground: #171717;  /* Dark text for light mode */
+}
+
+/* System dark mode preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;  /* Dark background */
+        --foreground: #ededed;  /* Light text */
+    }
+}
+
+.dark {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+}
+
+.light {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar - Light mode */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f3f4f6; /* gray-100 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db; /* gray-300 */
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af; /* gray-400 */
+}
+
+/* Custom scrollbar - Dark mode (system or manual) */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background-color: #1f2937; /* gray-800 */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #4b5563; /* gray-600 */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280; /* gray-500 */
+  }
+}
+
+/* Manual dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background-color: #1f2937;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
+
+/* Manual light mode scrollbar */
+.light ::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
