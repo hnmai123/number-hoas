@@ -12,7 +12,6 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /App
 COPY --from=build /App/out ./
-EXPOSE 80
 
 # Change this DLL name to match your project (e.g., NumberHoas.dll)
-ENTRYPOINT ["dotnet", "NumberHoas.dll"]
+ENTRYPOINT ["dotnet", "backend.dll"]

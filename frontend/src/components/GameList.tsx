@@ -8,6 +8,7 @@ import {
   faHashtag,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Game {
   gameId: string;
@@ -25,6 +26,7 @@ interface GameListProps {
 
 export default function GameList({ games = [], onPlayGame }: GameListProps) {
   const [displayGames, setDisplayGames] = useState<Game[]>([]);
+  const router = useRouter();
   const fetchGames = async () => {
     try {
       const response = await fetch("http://localhost:5086/api/games");
@@ -50,7 +52,7 @@ export default function GameList({ games = [], onPlayGame }: GameListProps) {
     if (onPlayGame) {
       onPlayGame(gameId);
     } else {
-      console.log(`Playing game with ID: ${gameId}`);
+      router.push(`/games/${gameId}/sessions`);
     }
   };
 

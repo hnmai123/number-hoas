@@ -27,6 +27,7 @@ interface GameData {
 }
 
 export default function CreateGame() {
+  const [loading, setLoading] = useState(false);
   const [gameData, setGameData] = useState<GameData>({
     id: crypto.randomUUID(), // generates a valid GUID
     name: "",
@@ -54,19 +55,23 @@ export default function CreateGame() {
       });
       if (response.ok) {
         const savedGame = await response.json();
-        
+
         for (const rule of gameData.rules) {
-          await fetch(`http://localhost:5086/api/games/${savedGame.gameId}/rules`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              ...rule,
-              gameId: savedGame.gameId,
-            }),
-          });
+          await fetch(
+            `http://localhost:5086/api/games/${savedGame.gameId}/rules`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                ...rule,
+                gameId: savedGame.gameId,
+              }),
+            }
+          );
           const testrule = { ...rule, gameId: savedGame.gameId };
+          console.log("Saved rule:", testrule);
         }
         setGameData({
           id: crypto.randomUUID(),
@@ -79,6 +84,8 @@ export default function CreateGame() {
       }
     } catch (error) {
       console.error("Error saving game:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -161,6 +168,7 @@ export default function CreateGame() {
               onClick={saveGame}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded disabled:bg-gray-400"
               disabled={
+                loading ||
                 !gameData.name ||
                 !gameData.authorName ||
                 gameData.range < 1 ||
@@ -168,7 +176,29 @@ export default function CreateGame() {
                 gameData.rules.length < 1
               }
             >
-              Save Game
+              {loading ? (
+                <svg
+                  className="animate-spin h-5 w-5 mr-2 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  ></path>
+                </svg>
+              ) : null}
+              {loading ? "Saving..." : "Save Game"}
             </button>
           </div>
         </div>

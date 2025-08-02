@@ -26,7 +26,7 @@ export default function RuleForm({ rules = [], onAdd, onRemove }: RuleFormProps)
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        Add Rule
+        Game Rules
       </label>
       <div className="flex gap-2 mb-4">
         <input
