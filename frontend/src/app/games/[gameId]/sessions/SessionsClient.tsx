@@ -35,7 +35,8 @@ export default function SessionsClient() {
   const [rules, setRules] = useState<Rule[]>([]);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isPlayed = searchParams.get("isplayed");
+  const isPlaying = searchParams.get("isPlaying");
+  const sessionId = searchParams.get("sessionId");
 
   // Fetch game info and rules
   useEffect(() => {
@@ -84,6 +85,18 @@ export default function SessionsClient() {
     fetchSessions();
   }, [gameId]);
 
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   // Handle play button
   const handlePlay = async () => {
     if (!playerName) return;
@@ -99,24 +112,35 @@ export default function SessionsClient() {
       const newSession = await res.json();
       setSessions((prev) => [newSession, ...prev]);
       setPlayerName("");
-      // Redirect to play screen with ?isplayed=true and sessionId
+      // Redirect to play screen with ?isPlaying=true and sessionId
       router.push(
-        `/games/${gameId}/sessions?isplayed=true&sessionId=${newSession.sessionId}`
+        `/games/${gameId}/sessions?isPlaying=true&sessionId=${newSession.sessionId}`
       );
     }
   };
 
-  //
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+
+  if (isPlaying && sessionId) {
+    return (
+      <div className="max-w-2xl mx-auto py-10 px-4">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-8">
+          <h2 className="text-2xl font-bold mb-4 text-blue-700 dark:text-blue-300">
+            Playing Session
+          </h2>
+          <p className="mb-2">Session ID: {sessionId}</p>
+          {/* Add your play screen UI here */}
+          <button
+            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+            onClick={() => {
+              router.push(`/games/${gameId}/sessions`);
+            }}
+          >
+            Back to Sessions
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto py-10 px-4">
@@ -257,7 +281,7 @@ export default function SessionsClient() {
                       onClick={() => {
                         window.location.href = `/games/${session.gameId}/sessions/${session.sessionId}`;
                       }}
-                      className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                      className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-lg"
                     >
                       View
                     </button>
