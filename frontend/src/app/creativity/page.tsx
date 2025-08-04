@@ -36,29 +36,33 @@ export default function CreateGame() {
     timeLimit: 60,
     rules: [],
   });
+const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL;
 
   const saveGame = async () => {
     try {
-      const response = await fetch("http://localhost:5086/api/games", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          gameId: gameData.id,
-          gameName: gameData.name,
-          authorName: gameData.authorName,
-          range: gameData.range,
-          timeLimit: gameData.timeLimit,
-          createdAt: new Date().toISOString(),
-        }),
-      });
+      const response = await fetch(
+        `${apiUrl}/api/games`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            gameId: gameData.id,
+            gameName: gameData.name,
+            authorName: gameData.authorName,
+            range: gameData.range,
+            timeLimit: gameData.timeLimit,
+            createdAt: new Date().toISOString(),
+          }),
+        }
+      );
       if (response.ok) {
         const savedGame = await response.json();
 
         for (const rule of gameData.rules) {
           await fetch(
-            `http://localhost:5086/api/games/${savedGame.gameId}/rules`,
+            `${apiUrl}/api/games/${savedGame.gameId}/rules`,
             {
               method: "POST",
               headers: {

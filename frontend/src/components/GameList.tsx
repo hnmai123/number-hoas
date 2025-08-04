@@ -29,7 +29,10 @@ export default function GameList({ games = [], onPlayGame }: GameListProps) {
   const router = useRouter();
   const fetchGames = async () => {
     try {
-      const response = await fetch("http://localhost:5086/api/games");
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.INTERNAL_API_URL;
+      const response = await fetch(
+        `${apiUrl}/api/games`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch games");
       }

@@ -37,17 +37,16 @@ export default function SessionsClient() {
   const searchParams = useSearchParams();
   const isPlaying = searchParams.get("isPlaying");
   const sessionId = searchParams.get("sessionId");
-
+  const apiUrl =
+    process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL;
   // Fetch game info and rules
   useEffect(() => {
     if (!gameId) return;
     async function fetchGame() {
       try {
-        const gameResponse = await fetch(
-          `http://localhost:5086/api/games/${gameId}`
-        );
+        const gameResponse = await fetch(`${apiUrl}/api/games/${gameId}`);
         const rulesResponse = await fetch(
-          `http://localhost:5086/api/games/${gameId}/rules`
+          `${apiUrl}/api/games/${gameId}/rules`
         );
         if (!gameResponse.ok || !rulesResponse.ok) {
           throw new Error("Failed to fetch game and rules");
@@ -69,9 +68,7 @@ export default function SessionsClient() {
     if (!gameId) return;
     async function fetchSessions() {
       try {
-        const response = await fetch(
-          `http://localhost:5086/api/games/${gameId}/sessions`
-        );
+        const response = await fetch(`${apiUrl}/api/games/${gameId}/sessions`);
         if (!response.ok) {
           throw new Error("Failed to fetch sessions");
         }
@@ -100,14 +97,11 @@ export default function SessionsClient() {
   // Handle play button
   const handlePlay = async () => {
     if (!playerName) return;
-    const res = await fetch(
-      `http://localhost:5086/api/games/${gameId}/sessions`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ playerName }),
-      }
-    );
+    const res = await fetch(`${apiUrl}/api/games/${gameId}/sessions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ playerName }),
+    });
     if (res.ok) {
       const newSession = await res.json();
       setSessions((prev) => [newSession, ...prev]);
@@ -118,7 +112,6 @@ export default function SessionsClient() {
       );
     }
   };
-
 
   if (isPlaying && sessionId) {
     return (
