@@ -4,17 +4,11 @@ import NumberRangeInput from "@/components/NumberRange";
 import RuleForm from "@/components/RuleForm";
 import TextInput from "@/components/TextInput";
 import TimeLimitInput from "@/components/TimeLimit";
+import { Rule } from "@/types/types";
 import { faGamepad, faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
-interface Rule {
-  id: string;
-  gameId: string;
-  divisibleNumber: number;
-  replacedWord: string;
-  createdAt?: string;
-}
 
 interface GameData {
   id: string;
@@ -36,7 +30,7 @@ export default function CreateGame() {
     timeLimit: 60,
     rules: [],
   });
-const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:5086";
 
   const saveGame = async () => {
     try {
@@ -152,7 +146,7 @@ const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL;
                   rules: [
                     ...gameData.rules,
                     {
-                      id: tempId,
+                      ruleId: tempId,
                       divisibleNumber,
                       replacedWord,
                       gameId: gameData.id,
@@ -163,7 +157,7 @@ const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL;
               onRemove={(id) => {
                 setGameData({
                   ...gameData,
-                  rules: gameData.rules.filter((rule) => rule.id !== id),
+                  rules: gameData.rules.filter((rule) => rule.ruleId !== id),
                 });
               }}
             />

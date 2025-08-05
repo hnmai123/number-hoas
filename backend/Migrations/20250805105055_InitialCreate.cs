@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -16,12 +15,12 @@ namespace backend.Migrations
                 name: "Games",
                 columns: table => new
                 {
-                    gameId = table.Column<Guid>(type: "uuid", nullable: false),
-                    gameName = table.Column<string>(type: "text", nullable: false),
-                    authorName = table.Column<string>(type: "text", nullable: false),
-                    range = table.Column<int>(type: "integer", nullable: false),
-                    timeLimit = table.Column<int>(type: "integer", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    gameId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    gameName = table.Column<string>(type: "TEXT", nullable: false),
+                    authorName = table.Column<string>(type: "TEXT", nullable: false),
+                    range = table.Column<int>(type: "INTEGER", nullable: false),
+                    timeLimit = table.Column<int>(type: "INTEGER", nullable: false),
+                    createdAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,11 +31,11 @@ namespace backend.Migrations
                 name: "GameRules",
                 columns: table => new
                 {
-                    ruleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    gameId = table.Column<Guid>(type: "uuid", nullable: false),
-                    divisibleNumber = table.Column<int>(type: "integer", nullable: false),
-                    replacedWord = table.Column<string>(type: "text", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ruleId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    gameId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    divisibleNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    replacedWord = table.Column<string>(type: "TEXT", nullable: false),
+                    createdAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,12 +52,12 @@ namespace backend.Migrations
                 name: "GameSessions",
                 columns: table => new
                 {
-                    sessionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    gameId = table.Column<Guid>(type: "uuid", nullable: false),
-                    playerName = table.Column<string>(type: "text", nullable: false),
-                    score = table.Column<int>(type: "integer", nullable: false),
-                    startTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    endTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    sessionId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    gameId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    playerName = table.Column<string>(type: "TEXT", nullable: false),
+                    score = table.Column<string>(type: "TEXT", nullable: false),
+                    startTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    endTime = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,13 +74,13 @@ namespace backend.Migrations
                 name: "SessionQuestions",
                 columns: table => new
                 {
-                    questionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    sessionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    questionNumber = table.Column<int>(type: "integer", nullable: false),
-                    correctAnswers = table.Column<List<string>>(type: "text[]", nullable: false),
-                    playerAnswer = table.Column<string>(type: "text", nullable: true),
-                    isCorrect = table.Column<bool>(type: "boolean", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    questionId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    sessionId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    questionNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    correctAnswers = table.Column<string>(type: "TEXT", nullable: false),
+                    playerAnswer = table.Column<string>(type: "TEXT", nullable: true),
+                    isCorrect = table.Column<bool>(type: "INTEGER", nullable: false),
+                    createdAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

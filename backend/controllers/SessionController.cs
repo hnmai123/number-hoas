@@ -85,8 +85,7 @@ public class SessionController : ControllerBase
 
         var random = new Random();
         int randomNumber = possibleNumbers[random.Next(possibleNumbers.Count)];
-
-        _context.SessionQuestions.Add(new Question
+        var question = new Question
         {
             questionId = Guid.NewGuid(),
             sessionId = sessionId,
@@ -95,8 +94,46 @@ public class SessionController : ControllerBase
             playerAnswer = "",
             isCorrect = false,
             createdAt = DateTime.UtcNow
-        });
+        };
+        _context.SessionQuestions.Add(question);
         await _context.SaveChangesAsync();
-        return Ok(randomNumber);
+        return Ok(new
+        {
+            questionId = question.questionId,
+            questionNumber = question.questionNumber,
+            createdAt = question.createdAt
+        });
+    }
+
+    // PUT: api/games/{gameId}/sessions/{sessionId}/questions/{questionId}
+    [HttpPut("{sessionId}/questions/{questionId}")]
+    public async Task<IActionResult> SubmitAnswer(Guid gameId, Guid sessionId, Guid questionId, [FromBody] SubmitAnswerDto dto)
+    {
+        var question = await _context.SessionQuestions
+            .FirstOrDefaultAsync(q => q.questionId == questionId && q.sessionId == sessionId);
+
+        if (question == null) return NotFound();
+
+        question.playerAnswer = dto.playerAnswer;
+
+        bool isCorrect = question.correctAnswers
+            .Any(ans => ans.Trim().Equals(dto.playerAnswer.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        question.isCorrect = isCorrect;
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new { isCorrect });
+    }
+
+    // PUT: api/games/{gameId}/sessions/{sessionId}/score
+    [HttpPut("{sessionId}/score")]
+    public async Task<IActionResult> UpdateScore(Guid gameId, Guid sessionId, [FromBody] UpdateScoreDto dto)
+    {
+        var session = await _context.GameSessions.FirstOrDefaultAsync(s => s.sessionId == sessionId && s.gameId == gameId);
+        if (session == null) return NotFound();
+        session.score = dto.score;
+        await _context.SaveChangesAsync();
+        return Ok(session);
     }
 }

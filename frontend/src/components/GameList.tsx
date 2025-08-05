@@ -9,15 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
-interface Game {
-  gameId: string;
-  gameName: string;
-  authorName: string;
-  range: number;
-  timeLimit: number;
-  createdAt: string; // ISO date string
-}
+import { Game } from "@/types/types";
 
 interface GameListProps {
   games?: Game[];
@@ -29,7 +21,7 @@ export default function GameList({ games = [], onPlayGame }: GameListProps) {
   const router = useRouter();
   const fetchGames = async () => {
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.INTERNAL_API_URL;
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.INTERNAL_API_URL || "http://localhost:5086";
       const response = await fetch(
         `${apiUrl}/api/games`
       );

@@ -1,4 +1,5 @@
 namespace NumberHoas.Models;
+
 public class Question
 {
     public Guid questionId { get; set; }
@@ -8,4 +9,9 @@ public class Question
     public string? playerAnswer { get; set; }
     public bool isCorrect { get; set; } = false;
     public DateTime createdAt { get; set; } = DateTime.UtcNow;
+}
+
+public class SubmitAnswerDto
+{
+    public string playerAnswer { get; set; } = string.Empty;
 }

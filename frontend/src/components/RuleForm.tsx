@@ -1,10 +1,9 @@
+import { Rule } from "@/types/types";
 import { useState } from "react";
+import GameRulesGrid from "./GameRulesGrid";
 
-interface Rule {
-  id: string;
-  divisibleNumber: number;
-  replacedWord: string;
-}
+
+
 interface RuleFormProps {
   rules: Rule[];
   onAdd: (divisibleNumber: number, replacedWord: string) => void;
@@ -52,24 +51,7 @@ export default function RuleForm({ rules = [], onAdd, onRemove }: RuleFormProps)
           Add
         </button>
       </div>
-      <div className="space-y-2">
-        {rules.map((rule) => (
-          <div
-            key={rule.id}
-            className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-2 rounded"
-          >
-            <span>
-              Divisible by {rule.divisibleNumber} → {rule.replacedWord}
-            </span>
-            <button
-              onClick={() => onRemove(rule.id)}
-              className="text-red-600 hover:text-red-800 bg-transparent hover:bg-red-100 dark:hover:bg-red-700 px-2 py-1 rounded"
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-      </div>
+      <GameRulesGrid rules={rules} onRemoveRule={onRemove} />
     </div>
   );
 }

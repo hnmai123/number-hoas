@@ -2,30 +2,10 @@
 
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
-interface Rule {
-  id: string;
-  divisibleNumber: number;
-  replacedWord: string;
-}
-
-interface Game {
-  gameId: string;
-  gameName: string;
-  authorName: string;
-  range: number;
-  timeLimit: number;
-  createdAt: string; // ISO date string
-}
-
-interface Session {
-  sessionId: string;
-  gameId: string;
-  playerName: string;
-  score: number;
-  startTime: string;
-  endTime: string;
-}
+import PlayingSession from "./PlayingSession";
+import { Game, Rule, Session } from "@/types/types";
+import GameInfoHeader from "@/components/GameInfoHeader";
+import GameRulesGrid from "@/components/GameRulesGrid";
 
 export default function SessionsClient() {
   const { gameId } = useParams();
@@ -38,7 +18,9 @@ export default function SessionsClient() {
   const isPlaying = searchParams.get("isPlaying");
   const sessionId = searchParams.get("sessionId");
   const apiUrl =
-    process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL;
+    process.env.INTERNAL_API_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    "http://localhost:5086";
   // Fetch game info and rules
   useEffect(() => {
     if (!gameId) return;
@@ -114,25 +96,7 @@ export default function SessionsClient() {
   };
 
   if (isPlaying && sessionId) {
-    return (
-      <div className="max-w-2xl mx-auto py-10 px-4">
-        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold mb-4 text-blue-700 dark:text-blue-300">
-            Playing Session
-          </h2>
-          <p className="mb-2">Session ID: {sessionId}</p>
-          {/* Add your play screen UI here */}
-          <button
-            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-            onClick={() => {
-              router.push(`/games/${gameId}/sessions`);
-            }}
-          >
-            Back to Sessions
-          </button>
-        </div>
-      </div>
-    );
+    return <PlayingSession sessionId={sessionId} gameId={gameId} />;
   }
 
   return (
@@ -151,72 +115,12 @@ export default function SessionsClient() {
         </div>
       </div>
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-8">
-        <div className="relative bg-gradient-to-br from-blue-100 via-blue-50 to-white dark:from-blue-900 dark:via-gray-900 dark:to-gray-800 shadow-xl rounded-2xl p-6 mb-8 overflow-hidden">
-          <div className="px-3">
-            <h1 className="text-3xl font-extrabold text-blue-700 dark:text-blue-200 mb-1 tracking-tight">
-              {game?.gameName ?? `Game ${gameId}`}
-            </h1>
-            <div className="flex flex-wrap gap-4 mb-2 mt-2">
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 text-sm font-semibold">
-                <svg
-                  className="w-4 h-4 mr-1 text-blue-500"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-1h2v1zm0-2H9V7h2v4z" />
-                </svg>
-                Author: {game?.authorName}
-              </span>
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 text-sm font-semibold">
-                <svg
-                  className="w-4 h-4 mr-1 text-  green-500"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M4 3a1 1 0 000 2h1v10H4a1 1 0 100 2h12a1 1 0 100-2h-1V5h1a1 1 0 100-2H4zm3 2v10h6V5H7z" />
-                </svg>
-                Range: {game?.range}
-              </span>
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 text-sm font-semibold">
-                <svg
-                  className="w-4 h-4 mr-1 text-yellow-500"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-1h2v1zm0-2H9V7h2v4z" />
-                </svg>
-                Time Limit: {game?.timeLimit} seconds
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {rules.length ? (
-            rules.map((rule, idx) => {
-              // If odd number of rules and this is the last card, span 2 columns
-              const isLastOdd =
-                rules.length % 2 === 1 && idx === rules.length - 1;
-              return (
-                <div
-                  key={idx}
-                  className={`bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4 shadow flex flex-col items-center ${
-                    isLastOdd ? "sm:col-span-2" : ""
-                  }`}
-                >
-                  <div className="text-lg font-bold text-blue-700 dark:text-blue-200 mb-2">
-                    Divisible by {rule.divisibleNumber}
-                  </div>
-                  <div className="text-xl text-blue-900 dark:text-blue-100 font-semibold">
-                    {rule.replacedWord}
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <div className="col-span-full text-gray-500 dark:text-gray-400">
-              No rules found.
-            </div>
-          )}
+        <GameInfoHeader game={game} gameId={gameId} />
+        <div className="relative bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 mb-8">
+          <h2 className="text-xl font-bold text-blue-700 dark:text-blue-300 mb-4">
+            Game Rules
+          </h2>
+          <GameRulesGrid rules={rules}/>
         </div>
         <div className="flex gap-2 items-center mb-2">
           <input

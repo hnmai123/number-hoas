@@ -56,7 +56,7 @@ public class QuestionController : ControllerBase
     }
 
     // PUT: api/games/{gameId}/sessions/{sessionId}/questions/{id}
-    [HttpPut("{questionId}")]
+    [HttpPut("update/{questionId}")]
     public async Task<IActionResult> UpdateQuestion(Guid gameId, Guid sessionId, Guid questionId, Question question)
     {
         if (questionId != question.questionId) return BadRequest();
