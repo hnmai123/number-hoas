@@ -18,10 +18,12 @@ interface GameListProps {
 
 export default function GameList({ games = [], onPlayGame }: GameListProps) {
   const [displayGames, setDisplayGames] = useState<Game[]>([]);
+  const [highestScores, setHighestScores] = useState<Record<string, string>>({});
   const router = useRouter();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.INTERNAL_API_URL || "http://localhost:5086";
+
   const fetchGames = async () => {
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.INTERNAL_API_URL || "http://localhost:5086";
       const response = await fetch(
         `${apiUrl}/api/games`
       );
@@ -39,9 +41,33 @@ export default function GameList({ games = [], onPlayGame }: GameListProps) {
     async function loadGames() {
       const gamesData = await fetchGames();
       setDisplayGames(gamesData);
+
+      const scoresData: Record<string, string> = {};
+      await Promise.all(
+        gamesData.map(async (game: Game) => {
+          const score = await fetchHighestScore(game.gameId);
+          scoresData[game.gameId] = score || "-";
+        })
+      );
+      setHighestScores(scoresData);
     }
     loadGames();
   }, []);
+
+  const fetchHighestScore = async (gameId: string) => {
+    try {
+      const response = await fetch(
+        `${apiUrl}/api/games/${gameId}/sessions/highest-score`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch highest score");
+      }
+      return await response.text();
+    } catch (error) {
+      console.error("Error fetching highest score:", error);
+      return null;
+    }
+  };
 
   const handlePlayClick = (gameId: string) => {
     if (onPlayGame) {
@@ -122,7 +148,7 @@ export default function GameList({ games = [], onPlayGame }: GameListProps) {
                     {/* Score cell */}
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <div className="text-sm text-gray-600 dark:text-gray-300 flex items-center gap-1 justify-center">
-                        -
+                        {highestScores[game.gameId] || "-"}
                       </div>
                     </td>
                     {/* Action cell */}

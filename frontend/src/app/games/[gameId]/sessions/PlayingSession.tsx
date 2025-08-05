@@ -205,6 +205,8 @@ export default function PlayingSession({
     }
   };
 
+  const reviewGame = () => {}
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -289,7 +291,7 @@ export default function PlayingSession({
 
         {gameOver && (
           <div className="my-8 p-6 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800">
-            <h3 className="text-2xl font-bold text-center mb-6">Game Over!</h3>
+            <h3 className="text-2xl font-bold text-center mb-6">Game Over! Your Score: {Math.round(gameStats.correct/gameStats.total * 100)}%</h3>
 
             <GameStatsCard
               correct={gameStats.correct}
@@ -303,6 +305,12 @@ export default function PlayingSession({
                 onClick={startGame}
               >
                 Play Again
+              </button>
+              <button
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded text-lg font-semibold mr-4"
+                onClick={reviewGame}
+              >
+                Review
               </button>
             </div>
           </div>

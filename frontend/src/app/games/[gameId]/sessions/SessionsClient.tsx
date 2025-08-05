@@ -67,7 +67,7 @@ export default function SessionsClient() {
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString("en-AU", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",

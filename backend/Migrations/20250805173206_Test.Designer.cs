@@ -11,8 +11,8 @@ using NumberHoas.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20250805105055_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250805173206_Test")]
+    partial class Test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

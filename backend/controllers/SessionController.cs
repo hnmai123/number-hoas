@@ -136,4 +136,29 @@ public class SessionController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(session);
     }
+
+    [HttpGet("highest-score")]
+    public async Task<ActionResult<string>> GetHighestScore(Guid gameId)
+    {
+        var sessions = await _context.GameSessions
+            .Where(s => s.gameId == gameId)
+            .ToListAsync();
+
+        if (sessions.Count == 0) return Ok("-");
+
+        var maxScore = sessions
+            .Select(s =>
+            {
+                var scoreString = s.score?.Replace("%", "").Trim() ?? "0";
+                if (float.TryParse(scoreString, out float score))
+                {
+                    return score;
+                }
+                return 0f;
+            })
+            .DefaultIfEmpty(0f)
+            .Max();
+
+        return Ok($"{maxScore}%");
+    }
 }
