@@ -150,6 +150,6 @@ public class NumberHoasLogic
 
         var outputs = FindReplacements(factorCounter, rules, ruleCounters, new List<string>());
 
-        return outputs.Count > 0 ? outputs : new List<string> { "" };
+        return outputs.Count > 0 ? outputs : new List<string> { "Prime" };
     }
 }

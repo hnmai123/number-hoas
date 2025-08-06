@@ -23,9 +23,11 @@ export default function ThemeToggle() {
 
   const applyTheme = (newTheme: Theme) => {
     const html = document.documentElement;
+    const body = document.body;
 
     // Remove all theme classes
     html.classList.remove("light", "dark");
+    body.classList.remove("light", "dark");
 
     if (newTheme === "system") {
       // Let CSS media queries handle it
@@ -33,6 +35,7 @@ export default function ThemeToggle() {
     } else {
       // Apply manual theme
       html.classList.add(newTheme);
+      body.classList.add(newTheme);
       localStorage.setItem("theme", newTheme);
     }
   };

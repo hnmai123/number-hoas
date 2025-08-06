@@ -6,6 +6,7 @@ import PlayingSession from "./PlayingSession";
 import { Game, Rule, Session } from "@/types/types";
 import GameInfoHeader from "@/components/GameInfoHeader";
 import GameRulesGrid from "@/components/GameRulesGrid";
+import BackButton from "@/components/BackButton";
 
 export default function SessionsClient() {
   const { gameId } = useParams();
@@ -120,7 +121,7 @@ export default function SessionsClient() {
           <h2 className="text-xl font-bold text-blue-700 dark:text-blue-300 mb-4">
             Game Rules
           </h2>
-          <GameRulesGrid rules={rules}/>
+          <GameRulesGrid rules={rules} />
         </div>
         <div className="flex gap-2 items-center mb-2">
           <input
@@ -176,7 +177,9 @@ export default function SessionsClient() {
                   <td className="px-4 py-2">
                     <button
                       onClick={() => {
-                        window.location.href = `/games/${session.gameId}/sessions/${session.sessionId}`;
+                        router.push(
+                          `/games/${session.gameId}/sessions/${session.sessionId}`
+                        );
                       }}
                       className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-lg"
                     >
@@ -189,6 +192,7 @@ export default function SessionsClient() {
           </table>
         )}
       </div>
+      <BackButton />
     </div>
   );
 }

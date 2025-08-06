@@ -33,10 +33,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}
-      >
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}
+    >
+      <body className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         <header className="sticky top-0 z-50 flex justify-between items-center px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-md transition-colors duration-300">
           <a
             href="/"
@@ -57,10 +58,10 @@ export default function RootLayout({
             <ThemeToggle />
           </nav>
         </header>
-        <main className="flex-1 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+        <main className="flex-1 bg-inherit text-inherit transition-colors duration-300">
           {children}
         </main>
-        <footer className="mt-auto py-6 text-center text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+        <footer className="mt-auto py-6 text-center border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
           <FontAwesomeIcon
             icon={faCopyright}
             className="mr-1 text-gray-600 dark:text-gray-400"

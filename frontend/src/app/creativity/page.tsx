@@ -1,5 +1,6 @@
 "use client";
 
+import BackButton from "@/components/BackButton";
 import NumberRangeInput from "@/components/NumberRange";
 import RuleForm from "@/components/RuleForm";
 import TextInput from "@/components/TextInput";
@@ -7,8 +8,8 @@ import TimeLimitInput from "@/components/TimeLimit";
 import { Rule } from "@/types/types";
 import { faGamepad, faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 
 interface GameData {
   id: string;
@@ -30,44 +31,42 @@ export default function CreateGame() {
     timeLimit: 60,
     rules: [],
   });
-const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:5086";
+  const router = useRouter();
+  const apiUrl =
+    process.env.INTERNAL_API_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    "http://localhost:5086";
 
   const saveGame = async () => {
     try {
-      const response = await fetch(
-        `${apiUrl}/api/games`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            gameId: gameData.id,
-            gameName: gameData.name,
-            authorName: gameData.authorName,
-            range: gameData.range,
-            timeLimit: gameData.timeLimit,
-            createdAt: new Date().toISOString(),
-          }),
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/games`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          gameId: gameData.id,
+          gameName: gameData.name,
+          authorName: gameData.authorName,
+          range: gameData.range,
+          timeLimit: gameData.timeLimit,
+          createdAt: new Date().toISOString(),
+        }),
+      });
       if (response.ok) {
         const savedGame = await response.json();
 
         for (const rule of gameData.rules) {
-          await fetch(
-            `${apiUrl}/api/games/${savedGame.gameId}/rules`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                ...rule,
-                gameId: savedGame.gameId,
-              }),
-            }
-          );
+          await fetch(`${apiUrl}/api/games/${savedGame.gameId}/rules`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...rule,
+              gameId: savedGame.gameId,
+            }),
+          });
           const testrule = { ...rule, gameId: savedGame.gameId };
           console.log("Saved rule:", testrule);
         }
@@ -201,6 +200,7 @@ const apiUrl = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL |
           </div>
         </div>
       </div>
+      <BackButton />
     </div>
   );
 }
