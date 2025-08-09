@@ -1,4 +1,4 @@
-import { Game } from "@/types/types";
+import { Game } from "@/utils/types";
 
 interface GameInfoHeaderProps {
   game: Game | null;

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Game, Rule } from "@/types/types";
+import { Game, Rule } from "@/utils/types";
 import GameRulesGrid from "@/components/GameRulesGrid";
 import GameInfoHeader from "@/components/GameInfoHeader";
 import GameStatsCard from "@/components/GameStatsCard";

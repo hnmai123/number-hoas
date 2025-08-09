@@ -9,6 +9,7 @@ import {
   faPalette,
   faComments,
   faCopyright,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import NavLink from "@/components/NavLink";
 
@@ -46,8 +47,8 @@ export default function RootLayout({
             Number Hoas
           </a>
           <nav className="flex space-x-8 items-center">
-            <NavLink href="/leaderboard" icon={faChartLine}>
-              Leaderboard
+            <NavLink href="/guide" icon={faBook}>
+              How to Play
             </NavLink>
             <NavLink href="/creativity" icon={faPalette}>
               Creativity

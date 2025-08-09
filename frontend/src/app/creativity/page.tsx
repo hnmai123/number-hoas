@@ -5,7 +5,7 @@ import NumberRangeInput from "@/components/NumberRange";
 import RuleForm from "@/components/RuleForm";
 import TextInput from "@/components/TextInput";
 import TimeLimitInput from "@/components/TimeLimit";
-import { Rule } from "@/types/types";
+import { Rule } from "@/utils/types";
 import { faGamepad, faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";

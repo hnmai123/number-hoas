@@ -9,7 +9,7 @@ public class GameContext : DbContext
     public DbSet<Rule> GameRules { get; set; }
     public DbSet<Session> GameSessions { get; set; }
     public DbSet<Question> SessionQuestions { get; set; }
-
+    public DbSet<Feedback> Feedbacks { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Game>()
@@ -24,6 +24,9 @@ public class GameContext : DbContext
         modelBuilder.Entity<Session>()
             .HasKey(s => s.sessionId);
 
+        modelBuilder.Entity<Feedback>()
+            .HasKey(f => f.feedbackId);
+            
         // Game - Rule relationship
         modelBuilder.Entity<Rule>()
             .HasOne<Game>()

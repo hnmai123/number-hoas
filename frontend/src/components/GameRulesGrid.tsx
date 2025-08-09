@@ -1,4 +1,4 @@
-import { Rule } from "@/types/types";
+import { Rule } from "@/utils/types";
 
 interface GameRulesGridProps {
   rules: Rule[];

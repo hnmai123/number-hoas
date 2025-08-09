@@ -1,4 +1,4 @@
-import { Rule } from "@/types/types";
+import { Rule } from "@/utils/types";
 import { useState } from "react";
 import GameRulesGrid from "./GameRulesGrid";
 

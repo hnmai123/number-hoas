@@ -31,3 +31,12 @@ export interface Question {
     playerAnswer? : string,
     isCorrect: boolean
 }
+
+export interface Feedback {
+  feedbackId: string;
+  authorName: string;
+  createdAt: string; // ISO date string
+  isPublic: boolean;
+  content: string;
+  authorId?: string | null; // optional field for author ID
+}

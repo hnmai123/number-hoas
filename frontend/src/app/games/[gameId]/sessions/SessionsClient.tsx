@@ -3,7 +3,7 @@
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import PlayingSession from "./PlayingSession";
-import { Game, Rule, Session } from "@/types/types";
+import { Game, Rule, Session } from "@/utils/types";
 import GameInfoHeader from "@/components/GameInfoHeader";
 import GameRulesGrid from "@/components/GameRulesGrid";
 import BackButton from "@/components/BackButton";

@@ -1,7 +1,7 @@
 "use client";
 
 import BackButton from "@/components/BackButton";
-import { Question, Session } from "@/types/types";
+import { Question, Session } from "@/utils/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

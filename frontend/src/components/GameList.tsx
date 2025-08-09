@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Game } from "@/types/types";
+import { Game } from "@/utils/types";
 
 interface GameListProps {
   games?: Game[];
