@@ -10,7 +10,7 @@ export default function BackButton({
 }) {
   const router = useRouter();
   return (
-    <div className="max-w-2xl mx-auto py-10 px-4 flex justify-center">
+    <div className="w-full max-w-xl mx-auto flex justify-center mt-5 mb-0">
       <button
         onClick={() => router.push(to)}
         className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold shadow-md hover:from-blue-500 hover:to-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
