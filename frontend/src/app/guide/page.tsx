@@ -25,7 +25,7 @@ export default function GuidePage() {
             Each rule has a{" "}
             <span className="font-semibold">divisible number</span> and a{" "}
             <span className="font-semibold">replacement word</span> (e.g.{" "}
-            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition">
+            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition font-bold">
               3: Fizz
             </span>
             )
@@ -41,7 +41,7 @@ export default function GuidePage() {
           <li>
             If the number is <span className="font-semibold">prime</span> or no
             rules apply, answer{" "}
-            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition">
+            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition font-bold">
               Prime
             </span>
           </li>
@@ -49,45 +49,45 @@ export default function GuidePage() {
       </div>
 
       {/* Examples */}
-      <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 rounded-3xl shadow-lg p-8 mb-10 border border-blue-100 dark:border-blue-900 transition hover:shadow-blue-200 dark:hover:shadow-blue-900 hover:scale-[1.01] duration-200">
+      <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 mb-10 border border-blue-100 dark:border-blue-900 transition hover:shadow-blue-200 dark:hover:shadow-blue-900 hover:scale-[1.01] duration-200">
         <h2 className="text-xl font-bold mb-3 text-blue-700 dark:text-blue-300 flex items-center gap-2">
           <span>💡</span> Examples
         </h2>
         <div className="space-y-4 text-base">
           <div>
             <span className="font-semibold">Rules:</span>{" "}
-            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition cursor-pointer">
+            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition font-bold">
               3: Fizz
             </span>
-            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition ml-2 cursor-pointer">
+            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition ml-2 font-bold">
               5: Buzz
             </span>
-            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition ml-2 cursor-pointer">
+            <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition ml-2 font-bold">
               4: Foo
             </span>
           </div>
           <ul className="list-disc list-inside ml-4 space-y-1">
             <li>
               <span className="font-semibold">15</span> = 3 × 5 →{" "}
-              <span className="text-blue-700 dark:text-blue-200 font-bold bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow">
+              <span className="text-blue-700 dark:text-blue-200 font-bold bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800">
                 FizzBuzz
               </span>
             </li>
             <li>
               <span className="font-semibold">12</span> = 2 × 2 × 3 →{" "}
-              <span className="text-blue-700 dark:text-blue-200 font-bold bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow">
+              <span className="text-blue-700 dark:text-blue-200 font-bold bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800">
                 FooFizz
               </span>
             </li>
             <li>
               <span className="font-semibold">9</span> = 3 × 3 →{" "}
-              <span className="text-blue-700 dark:text-blue-200 font-bold bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow">
+              <span className="text-blue-700 dark:text-blue-200 font-bold bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800">
                 FizzFizz
               </span>
             </li>
             <li>
               <span className="font-semibold">7</span> is prime →{" "}
-              <span className="text-blue-700 dark:text-blue-200 font-bold bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow">
+              <span className="text-blue-700 dark:text-blue-200 font-bold bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded shadow hover:bg-blue-200 dark:hover:bg-blue-800 font-bold">
                 Prime
               </span>
             </li>
@@ -120,7 +120,7 @@ export default function GuidePage() {
       <div className="mt-10">
         <DemoSession />
       </div>
-      
+
       <BackButton />
     </div>
   );

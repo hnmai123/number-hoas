@@ -17,9 +17,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "5086:8080"
+      - "5086:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=NumberHoas;Username=postgres;Password=postgres
     depends_on:
       - db
@@ -31,10 +32,10 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - INTERNAL_API_URL=http://backend:8080
+      - INTERNAL_API_URL=http://backend:80
       - NEXT_PUBLIC_API_URL=http://localhost:5086
     depends_on:
       - backend
-  
+
 volumes:
   pgdata:

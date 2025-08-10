@@ -205,7 +205,10 @@ export default function PlayingSession({
     }
   };
 
-  const reviewGame = () => {}
+  const reviewGame = () => {
+    if (!gameId || !sessionId) return;
+    router.push(`/games/${gameId}/sessions/${sessionId}`);
+  }
 
   // Cleanup on unmount
   useEffect(() => {
@@ -268,7 +271,7 @@ export default function PlayingSession({
                   onChange={(e) => setPlayerAnswer(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && submitAnswer()}
                   className="flex-grow border border-blue-300 dark:border-blue-600 px-5 py-3 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-white transition-all duration-200 shadow-sm"
-                  placeholder="Type your answer or submit"
+                  placeholder="Type your answer or Prime"
                   disabled={loading}
                   autoComplete="off"
                 />
