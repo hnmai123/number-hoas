@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "../lib/fontawesome.config";
-import ThemeToggle from "../components/ThemeToggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
@@ -56,7 +55,6 @@ export default function RootLayout({
             <NavLink href="/feedback" icon={faComments}>
               Feedback
             </NavLink>
-            <ThemeToggle />
           </nav>
         </header>
         <main className="flex-1 bg-inherit text-inherit transition-colors duration-300">
